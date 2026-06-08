@@ -1,0 +1,2218 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>微课：可提分铁三角 — VIPTHINK 销售培训</title>
+<style>
+:root {
+  --primary: #2563eb;
+  --primary-light: #3b82f6;
+  --primary-dark: #1d4ed8;
+  --accent: #f59e0b;
+  --accent-light: #fbbf24;
+  --success: #10b981;
+  --danger: #ef4444;
+  --bg: #f8fafc;
+  --card: #ffffff;
+  --text: #1e293b;
+  --text-secondary: #64748b;
+  --border: #e2e8f0;
+  --sidebar-bg: #1e293b;
+  --sidebar-text: #cbd5e1;
+  --sidebar-active: #2563eb;
+  --shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+  --radius: 12px;
+  --radius-sm: 8px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  display: flex;
+  min-height: 100vh;
+}
+
+/* === Sidebar === */
+.sidebar {
+  width: 280px;
+  min-width: 280px;
+  background: var(--sidebar-bg);
+  color: var(--sidebar-text);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 100;
+}
+
+.sidebar-header {
+  padding: 24px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.sidebar-header h3 {
+  font-size: 14px;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+
+.sidebar-header .course-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.4;
+}
+
+.sidebar-progress {
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #94a3b8;
+  margin-bottom: 8px;
+}
+
+.progress-bar {
+  height: 6px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--primary);
+  border-radius: 3px;
+  transition: width 0.5s ease;
+  width: 0%;
+}
+
+.sidebar-nav {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 0;
+}
+
+.nav-section {
+  padding: 8px 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  transition: all 0.2s;
+  border-left: 3px solid transparent;
+  position: relative;
+}
+
+.nav-section:hover {
+  background: rgba(255,255,255,0.05);
+}
+
+.nav-section.active {
+  background: rgba(37,99,235,0.15);
+  border-left-color: var(--primary);
+  color: #fff;
+}
+
+.nav-section.completed {
+  color: #94a3b8;
+}
+
+.nav-section.completed .nav-icon {
+  background: var(--success);
+  color: #fff;
+}
+
+.nav-icon {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--sidebar-text);
+  transition: all 0.3s;
+}
+
+.nav-section.active .nav-icon {
+  background: var(--primary);
+  color: #fff;
+}
+
+.nav-info .nav-label {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.nav-info .nav-sub {
+  font-size: 11px;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+.nav-section.active .nav-info .nav-sub {
+  color: #94a3b8;
+}
+
+.sidebar-footer {
+  padding: 16px 20px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  font-size: 12px;
+  color: #64748b;
+}
+
+/* === Main Content === */
+.main {
+  margin-left: 280px;
+  flex: 1;
+  padding: 40px;
+  max-width: 900px;
+}
+
+/* === Section Styles === */
+.section {
+  display: none;
+  animation: fadeSlide 0.4s ease;
+}
+
+.section.active {
+  display: block;
+}
+
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.section-header {
+  margin-bottom: 32px;
+}
+
+.section-badge {
+  display: inline-block;
+  padding: 4px 14px;
+  background: #eff6ff;
+  color: var(--primary);
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.section-header h1 {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.section-header .duration {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+/* === Content Cards === */
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 28px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+
+.card-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: var(--text);
+}
+
+.highlight-box {
+  background: linear-gradient(135deg, #eff6ff, #dbeafe);
+  border-left: 4px solid var(--primary);
+  padding: 20px 24px;
+  border-radius: var(--radius-sm);
+  margin: 20px 0;
+}
+
+.highlight-box.accent {
+  background: linear-gradient(135deg, #fffbeb, #fef3c7);
+  border-left-color: var(--accent);
+}
+
+.highlight-box.success {
+  background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+  border-left-color: var(--success);
+}
+
+.script-block {
+  background: #f1f5f9;
+  padding: 20px 24px;
+  border-radius: var(--radius-sm);
+  font-style: italic;
+  color: #475569;
+  position: relative;
+  margin: 16px 0;
+}
+
+.script-block::before {
+  content: '🎙️ Tips';
+  position: absolute;
+  top: -10px;
+  left: 16px;
+  background: #475569;
+  color: #fff;
+  padding: 2px 10px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-style: normal;
+}
+
+/* === Study Timer === */
+.study-timer {
+  padding: 10px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+}
+.timer-icon { font-size: 16px; }
+.timer-display { color: #fff; font-weight: 700; font-variant-numeric: tabular-nums; }
+.timer-label { color: #94a3b8; font-size: 11px; }
+
+/* === Notes Panel === */
+.notes-toggle {
+  position: fixed;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--sidebar-bg);
+  color: var(--sidebar-text);
+  border: none;
+  padding: 14px 8px;
+  border-radius: 8px 0 0 8px;
+  cursor: pointer;
+  font-size: 13px;
+  writing-mode: vertical-rl;
+  z-index: 90;
+  transition: all 0.3s;
+  box-shadow: -2px 0 8px rgba(0,0,0,0.1);
+}
+.notes-toggle:hover { background: var(--primary); color: #fff; padding-right: 14px; }
+
+.notes-panel {
+  position: fixed;
+  right: -360px;
+  top: 0;
+  bottom: 0;
+  width: 340px;
+  background: var(--card);
+  box-shadow: -4px 0 20px rgba(0,0,0,0.1);
+  z-index: 95;
+  transition: right 0.35s ease;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+.notes-panel.open { right: 0; }
+
+.notes-header {
+  padding: 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.notes-header h3 { font-size: 16px; }
+
+.notes-close {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: var(--text-secondary);
+  padding: 4px 8px;
+}
+.notes-close:hover { color: var(--text); }
+
+.notes-chapter-label {
+  padding: 10px 20px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+
+.notes-textarea {
+  flex: 1;
+  border: none;
+  padding: 16px 20px;
+  font-size: 14px;
+  font-family: inherit;
+  resize: none;
+  outline: none;
+  color: var(--text);
+}
+
+.notes-footer {
+  padding: 12px 20px;
+  border-top: 1px solid var(--border);
+  font-size: 11px;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+/* === Certificate === */
+.certificate-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s;
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.certificate-paper {
+  background: #fff;
+  width: 680px;
+  max-width: 95vw;
+  padding: 50px 40px;
+  border-radius: 4px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  position: relative;
+  text-align: center;
+  border: 8px double #2563eb;
+  outline: 1px solid #2563eb;
+  outline-offset: -16px;
+}
+.certificate-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #64748b;
+}
+.certificate-close:hover { color: #1e293b; }
+.cert-icon { font-size: 48px; margin-bottom: 12px; }
+.cert-title { font-size: 28px; font-weight: 800; color: #1e293b; margin-bottom: 4px; }
+.cert-subtitle { font-size: 14px; color: #64748b; margin-bottom: 24px; }
+.cert-body { font-size: 16px; color: #475569; margin-bottom: 8px; line-height: 1.8; }
+.cert-name { font-size: 24px; font-weight: 700; color: #2563eb; margin: 12px 0; border-bottom: 2px solid #2563eb; display: inline-block; padding: 0 20px 8px; }
+.cert-course { font-size: 16px; font-weight: 600; color: #f59e0b; margin: 12px 0; }
+.cert-score { font-size: 14px; color: #10b981; margin: 8px 0; }
+.cert-footer { margin-top: 30px; font-size: 12px; color: #94a3b8; display: flex; justify-content: space-between; }
+.cert-actions { margin-top: 24px; display: flex; gap: 12px; justify-content: center; }
+
+/* === Toast === */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 12px 28px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  z-index: 1000;
+  color: #fff;
+  animation: toastInDesktop 0.35s ease, toastOut 0.3s ease 2.5s forwards;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+}
+.toast.success { background: var(--success); }
+.toast.info { background: var(--primary); }
+@keyframes toastInDesktop { from { opacity: 0; transform: translateX(-50%) translateY(12px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
+@keyframes toastOut { from { opacity: 1; } to { opacity: 0; } }
+
+/* === Mobile Overlay === */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 99;
+}
+.sidebar-overlay.show { display: block; }
+
+.mobile-header {
+  display: none;
+  background: var(--sidebar-bg);
+  color: #fff;
+  padding: 12px 16px;
+  align-items: center;
+  gap: 12px;
+}
+
+/* === Responsive === */
+
+/* Tablet / Small Desktop (up to 1024px) — sidebar hidden by default */
+@media (max-width: 1024px) {
+  /* --- Show mobile header --- */
+  .mobile-header { display: flex; }
+
+  /* --- Sidebar: completely hidden, only shown via hamburger --- */
+  .sidebar {
+    display: none;
+  }
+  .sidebar.open {
+    display: flex;
+    transform: translateX(0);
+    box-shadow: 4px 0 24px rgba(0,0,0,0.3);
+    width: 280px;
+    min-width: 280px;
+  }
+  .sidebar-overlay { display: none; }
+  .sidebar-overlay.show { display: block; }
+
+  /* --- Main: remove sidebar offset --- */
+  .main {
+    margin-left: 0;
+    max-width: 100%;
+    padding: 24px 20px;
+  }
+
+  /* --- Typography --- */
+  .section-header h1 { font-size: 22px; line-height: 1.3; }
+  .section-header .duration { font-size: 13px; }
+  .section-badge { font-size: 12px; padding: 3px 10px; }
+  .card-title { font-size: 16px; }
+  .quiz-question { font-size: 15px; }
+
+  /* --- Cards & Blocks --- */
+  .card, .quiz-card, .dialogue-container {
+    padding: 20px 16px;
+    border-radius: 10px;
+  }
+  .highlight-box { padding: 16px; font-size: 14px; overflow-wrap: break-word; word-break: break-word; }
+  .script-block { padding: 18px 14px; font-size: 14px; margin: 12px 0; }
+
+  /* --- Callout Grid: single column, horizontal --- */
+  .callout-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin: 14px 0;
+  }
+  .callout-item {
+    padding: 14px 16px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto;
+    gap: 1px 14px;
+    align-items: center;
+    text-align: left;
+  }
+  .callout-item .icon {
+    grid-row: 1 / 3;
+    font-size: 28px;
+    margin-bottom: 0;
+    flex-shrink: 0;
+  }
+  .callout-item h4 { grid-row: 1; font-size: 14px; margin-bottom: 0; }
+  .callout-item p { grid-row: 2; font-size: 12px; }
+
+  /* --- Video wrapper --- */
+  .video-wrapper { padding: 4px; margin: 14px 0; }
+
+  /* --- Nav Buttons: stack --- */
+  .section-nav-buttons {
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+    margin-top: 32px;
+    padding-top: 20px;
+  }
+  .section-nav-buttons .btn {
+    width: 100%;
+    justify-content: center;
+    padding: 14px 20px;
+    font-size: 15px;
+  }
+
+  /* --- Quiz options: tap targets --- */
+  .quiz-option { padding: 16px 14px; font-size: 14px; }
+
+  /* --- AI Dialogue --- */
+  .dialogue-scenario { font-size: 13px; padding: 14px; }
+  .customer-bubble { max-width: 90%; font-size: 14px; }
+  .reply-input, #dialogueInput, #finalTaskInput {
+    min-height: 100px;
+    font-size: 15px;
+    padding: 12px;
+  }
+
+  /* --- Notes Panel: full-width slide --- */
+  .notes-panel {
+    width: 100vw;
+    right: -105vw;
+    transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 0;
+  }
+  .notes-panel.open { right: 0; box-shadow: -4px 0 30px rgba(0,0,0,0.25); }
+  .notes-toggle {
+    padding: 12px 7px;
+    font-size: 12px;
+    border-radius: 6px 0 0 6px;
+  }
+
+  /* --- Certificate --- */
+  .certificate-paper {
+    padding: 28px 18px;
+    width: 95vw;
+    border-width: 5px;
+    outline-offset: -10px;
+  }
+  .cert-title { font-size: 20px; }
+  .cert-name { font-size: 20px; }
+  .cert-body { font-size: 14px; }
+  .cert-footer { flex-direction: column; text-align: center; gap: 4px; }
+  .cert-actions { flex-direction: column; gap: 10px; }
+  .cert-actions .btn { width: 100%; justify-content: center; }
+
+  /* --- Eval dimensions: full-width single column --- */
+  .eval-dimensions {
+    grid-template-columns: 1fr !important;
+    gap: 10px;
+  }
+  .eval-dim {
+    padding: 16px;
+    text-align: center;
+    overflow-wrap: break-word;
+    word-break: keep-all;
+  }
+  .eval-dim h4 { font-size: 14px; }
+
+  /* --- Charts: scroll on overflow --- */
+  .chart-container {
+    padding: 12px 8px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .chart-container svg { min-width: 420px; }
+
+  /* --- Data bars --- */
+  .data-bar-label { font-size: 13px; }
+  .data-bar-track { height: 10px; }
+
+  /* --- Buttons --- */
+  .btn {
+    padding: 12px 18px;
+    font-size: 14px;
+    min-height: 44px;
+    display: inline-flex;
+  }
+
+  /* --- Toast --- */
+  .toast {
+    left: 16px;
+    right: 16px;
+    transform: none;
+    bottom: 20px;
+    text-align: center;
+    font-size: 13px;
+    padding: 12px 16px;
+    border-radius: 12px;
+    animation: toastInMobile 0.35s ease, toastOut 0.3s ease 2.5s forwards;
+  }
+  @keyframes toastInMobile { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* --- Task checklist --- */
+  .task-checklist li { padding: 14px 12px; font-size: 13px; }
+
+  /* --- Keyword tags --- */
+  .keywords-result { gap: 6px; }
+  .keyword-tag { font-size: 11px; padding: 4px 10px; }
+}
+
+/* Small phones (up to 480px) */
+@media (max-width: 480px) {
+  .main { padding: 14px 10px; }
+  .section-header h1 { font-size: 19px; }
+  .card, .quiz-card, .dialogue-container { padding: 16px 12px; }
+  .highlight-box { padding: 14px 12px; }
+  .script-block { padding: 16px 12px; font-size: 13px; }
+  .quiz-option { padding: 14px 10px; font-size: 13px; }
+  .certificate-paper { padding: 20px 12px; }
+  .cert-title { font-size: 18px; }
+  .section-nav-buttons .btn { padding: 12px 16px; font-size: 14px; }
+  .sidebar { width: 100vw; min-width: 100vw; }
+}
+
+/* === Interactive Quiz === */
+.quiz-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 28px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow);
+  border: 2px solid var(--border);
+  transition: border-color 0.3s;
+}
+
+.quiz-card.answered-correct {
+  border-color: var(--success);
+}
+
+.quiz-card.answered-wrong {
+  border-color: var(--danger);
+}
+
+.quiz-question {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: var(--text);
+}
+
+.quiz-options { display: flex; flex-direction: column; gap: 10px; }
+
+.quiz-option {
+  padding: 14px 18px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.quiz-option:hover {
+  border-color: var(--primary-light);
+  background: #eff6ff;
+}
+
+.quiz-option.selected {
+  border-color: var(--primary);
+  background: #eff6ff;
+}
+
+.quiz-option.correct {
+  border-color: var(--success);
+  background: #ecfdf5;
+}
+
+.quiz-option.wrong {
+  border-color: var(--danger);
+  background: #fef2f2;
+}
+
+.quiz-option-label {
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  border-radius: 50%;
+  background: #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.quiz-option.selected .quiz-option-label {
+  background: var(--primary);
+  color: #fff;
+}
+
+.quiz-option.correct .quiz-option-label,
+.quiz-option.wrong .quiz-option-label {
+  background: var(--success);
+  color: #fff;
+}
+
+.quiz-feedback {
+  margin-top: 16px;
+  padding: 16px;
+  border-radius: var(--radius-sm);
+  display: none;
+  font-size: 14px;
+}
+
+.quiz-feedback.show { display: block; }
+.quiz-feedback.correct { background: #ecfdf5; color: #065f46; }
+.quiz-feedback.wrong { background: #fef2f2; color: #991b1b; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.btn:hover { background: var(--primary-dark); }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-outline {
+  background: transparent;
+  color: var(--primary);
+  border: 2px solid var(--primary);
+}
+.btn-outline:hover { background: #eff6ff; }
+.btn-accent { background: var(--accent); }
+.btn-accent:hover { background: #d97706; }
+.btn-success { background: var(--success); }
+.btn-success:hover { background: #059669; }
+
+/* === AI Dialogue === */
+.dialogue-container {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 28px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+
+.dialogue-scenario {
+  background: #fef3c7;
+  padding: 16px 20px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: #92400e;
+}
+
+.dialogue-scenario strong {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.customer-bubble {
+  background: #f1f5f9;
+  padding: 16px 20px;
+  border-radius: 16px 16px 16px 4px;
+  margin-bottom: 20px;
+  max-width: 80%;
+  position: relative;
+}
+
+.customer-bubble::before {
+  content: '👤 客户';
+  font-size: 11px;
+  color: var(--text-secondary);
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.reply-input {
+  width: 100%;
+  min-height: 120px;
+  padding: 14px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-family: inherit;
+  resize: vertical;
+  transition: border-color 0.2s;
+}
+
+.reply-input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.dialogue-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+  align-items: center;
+}
+
+.ai-feedback-panel {
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: var(--radius-sm);
+  display: none;
+}
+
+.ai-feedback-panel.show { display: block; }
+
+.score-display {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.score-circle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  font-size: 28px;
+  font-weight: 800;
+  color: #fff;
+}
+
+.score-circle.high { background: var(--success); }
+.score-circle.medium { background: var(--accent); }
+.score-circle.low { background: var(--danger); }
+
+.keywords-result {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.keyword-tag {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.keyword-tag.found {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.keyword-tag.missing {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* === Charts & Infographics === */
+.chart-container {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin: 20px 0;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  text-align: center;
+}
+
+.chart-container svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* === Progress Navigation === */
+.section-nav-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+
+/* === Final Task === */
+.task-checklist {
+  list-style: none;
+  padding: 0;
+}
+
+.task-checklist li {
+  padding: 12px 16px;
+  margin-bottom: 8px;
+  border-radius: var(--radius-sm);
+  background: #f8fafc;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+}
+
+.task-checklist li .check-icon {
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  border-radius: 50%;
+  background: #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+
+.task-checklist li.done .check-icon {
+  background: var(--success);
+  color: #fff;
+}
+
+.eval-dimensions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.eval-dim {
+  padding: 20px;
+  border-radius: var(--radius-sm);
+  background: #f8fafc;
+  text-align: center;
+  border: 2px solid var(--border);
+}
+
+.eval-dim h4 {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.eval-dim .stars {
+  color: var(--accent);
+  font-size: 20px;
+}
+
+/* === Data Bar === */
+.data-bars { display: flex; flex-direction: column; gap: 16px; }
+
+.data-bar-item { }
+
+.data-bar-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.data-bar-track {
+  height: 12px;
+  background: #e2e8f0;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.data-bar-fill {
+  height: 100%;
+  border-radius: 6px;
+  transition: width 1s ease;
+}
+
+.data-bar-fill.blue { background: linear-gradient(90deg, #3b82f6, #2563eb); }
+.data-bar-fill.green { background: linear-gradient(90deg, #34d399, #10b981); }
+.data-bar-fill.amber { background: linear-gradient(90deg, #fbbf24, #f59e0b); }
+
+/* === Video Embed === */
+.video-wrapper {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 8px;
+  margin: 20px 0;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+
+.video-wrapper video {
+  width: 100%;
+  border-radius: var(--radius-sm);
+  display: block;
+}
+
+.video-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 4px 4px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+/* === Tooltip-style callout === */
+.callout-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin: 20px 0;
+}
+
+.callout-item {
+  padding: 20px;
+  border-radius: var(--radius-sm);
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  text-align: center;
+}
+
+.callout-item .icon {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.callout-item h4 {
+  font-size: 15px;
+  margin-bottom: 6px;
+}
+
+.callout-item p {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <h3>AI 微课 · 销售培训</h3>
+    <div class="course-title">可提分铁三角：<br>从底层逻辑到实战话术</div>
+  </div>
+  <div class="sidebar-progress">
+    <div class="progress-label">
+      <span>学习进度</span>
+      <span id="progressPercent">0%</span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+  </div>
+  <div class="study-timer">
+    <span class="timer-icon">⏱</span>
+    <span class="timer-display" id="timerDisplay">00:00</span>
+    <span class="timer-label">学习时长</span>
+  </div>
+  <nav class="sidebar-nav" id="sidebarNav">
+    <!-- Populated by JS -->
+  </nav>
+  <div class="sidebar-footer">
+    VIPTHINK · 课程顾问培训体系
+  </div>
+</aside>
+
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+<div class="mobile-header">
+  <button onclick="toggleSidebar()" style="background:none;border:none;color:#fff;font-size:20px;cursor:pointer;">☰</button>
+  <span style="font-weight:700;font-size:14px;">可提分铁三角 · 微课</span>
+</div>
+
+<!-- Notes Panel -->
+<button class="notes-toggle" id="notesToggle" onclick="toggleNotes()" title="学习笔记">📝 笔记</button>
+<div class="notes-panel" id="notesPanel">
+  <div class="notes-header">
+    <h3>📝 学习笔记</h3>
+    <button class="notes-close" onclick="toggleNotes()">✕</button>
+  </div>
+  <div class="notes-chapter-label" id="notesChapterLabel">开场</div>
+  <textarea class="notes-textarea" id="notesTextarea" placeholder="在这里记录你的学习心得、关键要点……"></textarea>
+  <div class="notes-footer">笔记自动保存 💾</div>
+</div>
+
+<!-- Certificate Overlay -->
+<div class="certificate-overlay" id="certOverlay" style="display:none;">
+  <div class="certificate-paper" id="certPaper">
+    <button class="certificate-close" onclick="closeCertificate()">✕</button>
+    <div class="cert-icon">🏆</div>
+    <div class="cert-title">结 业 证 书</div>
+    <div class="cert-subtitle">CERTIFICATE OF COMPLETION</div>
+    <div class="cert-body">
+      兹证明学员
+      <div class="cert-name" id="certStudentName" contenteditable="true">___________</div>
+      已完成 AI 微课培训课程
+      <div class="cert-course">《可提分铁三角：从底层逻辑到实战话术》</div>
+      课程主题：如何向客户清晰证明 VIPTHINK 课程能有效提分
+    </div>
+    <div class="cert-score" id="certScore">综合评定：通过</div>
+    <div class="cert-footer">
+      <span id="certDate"></span>
+      <span>VIPTHINK · 课程顾问培训体系</span>
+    </div>
+    <div class="cert-actions">
+      <button class="btn" onclick="printCertificate()">🖨️ 打印证书</button>
+      <button class="btn btn-outline" onclick="closeCertificate()">关闭</button>
+    </div>
+  </div>
+</div>
+
+<!-- Main Content -->
+<main class="main" id="mainContent">
+  <!-- Sections rendered by JS -->
+</main>
+
+<script>
+// === Course Data ===
+const courseData = {
+  title: '如何向客户清晰证明VIPTHINK课程能有效提分',
+  target: '新入职销售/课程顾问',
+  duration: '15-20分钟（含互动练习）',
+  sections: [
+    {
+      id: 's0',
+      title: '开场',
+      duration: '0-1分钟',
+      icon: '▶',
+      type: 'content',
+      content: `
+        <div class="section-header">
+          <span class="section-badge">开场导入</span>
+          <h1>开场</h1>
+          <span class="duration">⏱ 0-1分钟</span>
+        </div>
+
+        <div class="highlight-box">
+          <strong>🎯 核心价值：</strong>爱思考、有方法、会应用、擅表达
+        </div>
+
+        <div class="script-block">
+          大家好。我们在向客户介绍课程时，最常被问到、也最核心的一个问题就是——「学了这个，对校内成绩有帮助吗？能提分吗？」今天这堂课，我们就来系统拆解这个问题的标准答案。我们称之为「可提分铁三角」，它由<strong>底层能力、课程体系、过程支持</strong>三大支柱构成。
+        </div>
+
+        <div class="video-wrapper">
+          <div class="video-label">🎬 第一章 · 开场视频（PPT讲解视频）</div>
+          <video controls preload="metadata" playsinline webkit-playsinline>
+            <source src="avatar_ch1_kaichang.mp4" type="video/mp4">
+          </video>
+        </div>
+
+        <div class="chart-container">
+          <svg viewBox="0 0 680 340" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#2563eb;stop-opacity:1"/>
+                <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:1"/>
+              </linearGradient>
+              <linearGradient id="g2" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#f59e0b;stop-opacity:1"/>
+                <stop offset="100%" style="stop-color:#fbbf24;stop-opacity:1"/>
+              </linearGradient>
+              <linearGradient id="g3" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#10b981;stop-opacity:1"/>
+                <stop offset="100%" style="stop-color:#34d399;stop-opacity:1"/>
+              </linearGradient>
+              <filter id="shadow"><feDropShadow dx="0" dy="2" stdDeviation="4" flood-opacity="0.15"/></filter>
+            </defs>
+            <!-- Title -->
+            <text x="340" y="30" text-anchor="middle" font-size="18" font-weight="800" fill="#1e293b">可提分铁三角</text>
+            <!-- Triangle -->
+            <polygon points="340,60 120,280 560,280" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-dasharray="8,4" opacity="0.4"/>
+            <!-- Pillar 1 -->
+            <rect x="100" y="90" width="160" height="60" rx="10" fill="url(#g1)" filter="url(#shadow)"/>
+            <text x="180" y="115" text-anchor="middle" font-size="13" fill="#fff" font-weight="700">🔑 第一支柱</text>
+            <text x="180" y="135" text-anchor="middle" font-size="12" fill="#dbeafe">底层能力·万能钥匙</text>
+            <!-- Pillar 2 -->
+            <rect x="260" y="90" width="160" height="60" rx="10" fill="url(#g2)" filter="url(#shadow)"/>
+            <text x="340" y="115" text-anchor="middle" font-size="13" fill="#fff" font-weight="700">🎯 第二支柱</text>
+            <text x="340" y="135" text-anchor="middle" font-size="12" fill="#fef3c7">课程体系·精准地图</text>
+            <!-- Pillar 3 -->
+            <rect x="420" y="90" width="160" height="60" rx="10" fill="url(#g3)" filter="url(#shadow)"/>
+            <text x="500" y="115" text-anchor="middle" font-size="13" fill="#fff" font-weight="700">🛡️ 第三支柱</text>
+            <text x="500" y="135" text-anchor="middle" font-size="12" fill="#d1fae5">过程支持·全程护航</text>
+            <!-- Connection arrows -->
+            <line x1="260" y1="120" x2="280" y2="120" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+            <line x1="420" y1="120" x2="440" y2="120" stroke="#94a3b8" stroke-width="2"/>
+            <defs><marker id="arrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#94a3b8"/></marker></defs>
+            <!-- Details -->
+            <text x="180" y="175" text-anchor="middle" font-size="11" fill="#64748b">思维力是应对所有</text>
+            <text x="180" y="192" text-anchor="middle" font-size="11" fill="#64748b">学科考试的万能钥匙</text>
+            <text x="340" y="175" text-anchor="middle" font-size="11" fill="#64748b">内容对标·进度超前</text>
+            <text x="340" y="192" text-anchor="middle" font-size="11" fill="#64748b">专项突破·直指考点</text>
+            <text x="500" y="175" text-anchor="middle" font-size="11" fill="#64748b">3V1服务·个性化辅导</text>
+            <text x="500" y="192" text-anchor="middle" font-size="11" fill="#64748b">阶段复习·效果落地</text>
+            <!-- Bottom connection -->
+            <rect x="240" y="240" width="200" height="44" rx="22" fill="#1e293b" filter="url(#shadow)"/>
+            <text x="340" y="260" text-anchor="middle" font-size="13" fill="#fff" font-weight="700">🏆 有效提分</text>
+            <text x="340" y="278" text-anchor="middle" font-size="11" fill="#94a3b8">完整闭环，承诺兑现</text>
+            <line x1="180" y1="220" x2="280" y2="240" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,3"/>
+            <line x1="340" y1="220" x2="340" y2="240" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,3"/>
+            <line x1="500" y1="220" x2="400" y2="240" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,3"/>
+          </svg>
+        </div>
+      `
+    },
+    {
+      id: 's1',
+      title: '第一支柱：底层逻辑',
+      duration: '1-4分钟',
+      icon: '1',
+      type: 'content_quiz',
+      quizId: 'quiz1',
+      content: `
+        <div class="section-header">
+          <span class="section-badge">第一支柱</span>
+          <h1>底层逻辑：思维力是提分的"万能钥匙"</h1>
+          <span class="duration">⏱ 1-4分钟</span>
+        </div>
+
+        <div class="highlight-box">
+          <strong>📖 文档原文：</strong>我们培养的<em>底层逻辑思维能力和解决问题能力</em>，是<strong style="color:#2563eb;">应对所有学科考试的「万能钥匙」</strong>。
+        </div>
+
+        <div class="script-block">
+          首先，我们必须理解，VIPTHINK的提分逻辑和传统刷题班有本质不同。我们不是头痛医头、脚痛医脚。文档明确指出，我们培养的底层逻辑思维能力和解决问题能力，是应对所有学科考试的「万能钥匙」。这意味着，当孩子通过我们的游戏化探究式课堂，真正提升了分析、推理和举一反三的能力后，他面对校内考试，尤其是最让家长头疼的应用题、灵活题时，就能抓住问题本质，轻松破解。这是我们能承诺「有效提分」的根本前提。
+        </div>
+
+        <div class="callout-grid">
+          <div class="callout-item">
+            <div class="icon">🧠</div>
+            <h4>分析能力</h4>
+            <p>拆解复杂问题结构</p>
+          </div>
+          <div class="callout-item">
+            <div class="icon">🔍</div>
+            <h4>推理能力</h4>
+            <p>从已知推导未知</p>
+          </div>
+          <div class="callout-item">
+            <div class="icon">🔄</div>
+            <h4>举一反三</h4>
+            <p>触类旁通，灵活应用</p>
+          </div>
+        </div>
+
+        <div class="video-wrapper">
+          <div class="video-label">🎬 第二章 · 万能钥匙（PPT讲解视频）</div>
+          <video controls preload="metadata" playsinline webkit-playsinline>
+            <source src="avatar_ch2_yaoshi.mp4" type="video/mp4">
+          </video>
+        </div>
+
+        <div class="highlight-box accent">
+          <strong>💡 关键区别：</strong>刷题班 = 头痛医头 → 题变就不会<br>
+          <strong>VIPTHINK = </strong>培养思维力 → 万变不离其宗
+        </div>
+      `
+    },
+    {
+      id: 's2',
+      title: '第二支柱：课程体系',
+      duration: '4-10分钟',
+      icon: '2',
+      type: 'content_chart_dialogue',
+      quizId: 'quiz2',
+      content: `
+        <div class="section-header">
+          <span class="section-badge">第二支柱</span>
+          <h1>直接保障：课程体系与校内强关联</h1>
+          <span class="duration">⏱ 4-10分钟</span>
+        </div>
+
+        <div class="highlight-box">
+          <strong>🎯 核心理念：</strong>有了「万能钥匙」，还得确保这把钥匙能打开「学校考试」这把锁。
+        </div>
+
+        <div class="script-block">
+          有了「万能钥匙」，我们还得确保这把钥匙能打开「学校考试」这把锁。这就是我们的第二重保障：课程体系与校内学习强关联。具体体现在三个「精准」——<br><br>
+          <strong>第一，内容精准对标：</strong>我们的课程大纲在语言、出题方式上都与香港本地教材和考试保持一致。<br>
+          <strong>第二，进度精准超前：</strong>校内单元覆盖70%以上，考点100%覆盖，课程进度平均领先校内2个月。孩子在学校学是复习和巩固，自然更从容。<br>
+          <strong>第三，痛点精准打击：</strong>          针对香港家长最关心的计算和应用题，设置重点讲解和突破环节。针对呈分试、中一入学试等关键战役，开发专项训练模块与模拟题库。
+        </div>
+
+        <div class="video-wrapper">
+          <div class="video-label">🎬 第三章 · 精准地图（PPT讲解视频）</div>
+          <video controls preload="metadata" playsinline webkit-playsinline>
+            <source src="avatar_ch3_ditu.mp4" type="video/mp4">
+          </video>
+        </div>
+
+        <div class="chart-container">
+          <svg viewBox="0 0 680 280" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="680" height="280" rx="12" fill="#fff"/>
+            <text x="340" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#1e293b">课程体系 VS 校内覆盖 对比</text>
+            <!-- Bar 1: 单元覆盖 -->
+            <text x="100" y="72" font-size="13" font-weight="600" fill="#334155">校内单元覆盖</text>
+            <rect x="220" y="58" width="380" height="16" rx="8" fill="#e2e8f0"/>
+            <rect x="220" y="58" width="266" height="16" rx="8" fill="url(#g1)"/>
+            <text x="610" y="72" font-size="13" font-weight="700" fill="#2563eb" text-anchor="end">70%+</text>
+            <!-- Bar 2: 考点覆盖 -->
+            <text x="100" y="122" font-size="13" font-weight="600" fill="#334155">考点覆盖</text>
+            <rect x="220" y="108" width="380" height="16" rx="8" fill="#e2e8f0"/>
+            <rect x="220" y="108" width="380" height="16" rx="8" fill="url(#g2)"/>
+            <text x="610" y="122" font-size="13" font-weight="700" fill="#f59e0b" text-anchor="end">100%</text>
+            <!-- Bar 3: 进度领先 -->
+            <text x="100" y="172" font-size="13" font-weight="600" fill="#334155">进度领先校内</text>
+            <rect x="220" y="158" width="380" height="16" rx="8" fill="#e2e8f0"/>
+            <rect x="220" y="158" width="200" height="16" rx="8" fill="url(#g3)"/>
+            <text x="610" y="172" font-size="13" font-weight="700" fill="#10b981" text-anchor="end">2个月</text>
+            <!-- Three pillars -->
+            <rect x="60" y="215" width="170" height="46" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+            <text x="145" y="235" text-anchor="middle" font-size="12" font-weight="700" fill="#2563eb">📋 内容精准对标</text>
+            <text x="145" y="251" text-anchor="middle" font-size="10" fill="#64748b">与本地教材一致</text>
+            <rect x="255" y="215" width="170" height="46" rx="8" fill="#fffbeb" stroke="#f59e0b" stroke-width="1.5"/>
+            <text x="340" y="235" text-anchor="middle" font-size="12" font-weight="700" fill="#d97706">🚀 进度精准超前</text>
+            <text x="340" y="251" text-anchor="middle" font-size="10" fill="#64748b">领先校内2个月</text>
+            <rect x="450" y="215" width="170" height="46" rx="8" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5"/>
+            <text x="535" y="235" text-anchor="middle" font-size="12" font-weight="700" fill="#059669">🎯 痛点精准打击</text>
+            <text x="535" y="251" text-anchor="middle" font-size="10" fill="#64748b">计算+应用题专项</text>
+            <defs>
+              <linearGradient id="g1" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#3b82f6"/><stop offset="100%" stop-color="#2563eb"/></linearGradient>
+              <linearGradient id="g2" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#fbbf24"/><stop offset="100%" stop-color="#f59e0b"/></linearGradient>
+              <linearGradient id="g3" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#34d399"/><stop offset="100%" stop-color="#10b981"/></linearGradient>
+            </defs>
+          </svg>
+        </div>
+      `
+    },
+    {
+      id: 's3',
+      title: '第三支柱：过程支持',
+      duration: '10-13分钟',
+      icon: '3',
+      type: 'content',
+      content: `
+        <div class="section-header">
+          <span class="section-badge">第三支柱</span>
+          <h1>过程支持：个性化服务确保效果落地</h1>
+          <span class="duration">⏱ 10-13分钟</span>
+        </div>
+
+        <div class="highlight-box success">
+          <strong>🎯 核心理念：</strong>有好课程，还需要好执行。提分不是一个空洞的承诺，而是一个有跟踪、有反馈、有支持的完整闭环。
+        </div>
+
+        <div class="script-block">
+          有了好课程，还需要好执行。第三重保障，就是我们个性化的过程支持服务，确保每个孩子不掉队，效果看得见。<br><br>
+          <strong>首先，是3V1的陪伴：</strong>教研老师规划路径，授课老师课堂引导，辅导老师课后跟进，全方位关注孩子。<br>
+          <strong>其次，是精准的干预：</strong>通过课中互动、课后作业和阶段性测试，能及时发现孩子是计算差、概念理解不透彻，还是应用题不会审题。一旦发现，就会提供课后单独辅导及相关资料补充。<br>
+          <strong>最后，是关键点的强化：</strong>在期中、期末等考试前，提供阶段性复习课程，帮孩子进行针对性巩固。
+        </div>
+
+        <div class="video-wrapper">
+          <div class="video-label">🎬 第四章 · 全程护航（PPT讲解视频）</div>
+          <video controls preload="metadata" playsinline webkit-playsinline>
+            <source src="avatar_ch4_huhang.mp4" type="video/mp4">
+          </video>
+        </div>
+
+        <div class="chart-container">
+          <svg viewBox="0 0 680 320" xmlns="http://www.w3.org/2000/svg">
+            <!-- 3V1 Service -->
+            <text x="340" y="24" text-anchor="middle" font-size="16" font-weight="700" fill="#1e293b">3V1 服务闭环</text>
+            <!-- Center: Student -->
+            <circle cx="340" cy="160" r="36" fill="#1e293b"/>
+            <text x="340" y="157" text-anchor="middle" font-size="14" fill="#fff" font-weight="700">学生</text>
+            <text x="340" y="173" text-anchor="middle" font-size="10" fill="#94a3b8">中心</text>
+            <!-- Teacher 1: 教研 -->
+            <circle cx="120" cy="90" r="40" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+            <text x="120" y="83" text-anchor="middle" font-size="22">📐</text>
+            <text x="120" y="103" text-anchor="middle" font-size="12" font-weight="700" fill="#2563eb">教研老师</text>
+            <text x="120" y="118" text-anchor="middle" font-size="10" fill="#64748b">规划学习路径</text>
+            <line x1="155" y1="108" x2="308" y2="148" stroke="#2563eb" stroke-width="1.5" stroke-dasharray="6,3"/>
+            <!-- Teacher 2: 授课 -->
+            <circle cx="340" cy="60" r="40" fill="#fffbeb" stroke="#f59e0b" stroke-width="2"/>
+            <text x="340" y="53" text-anchor="middle" font-size="22">👨‍🏫</text>
+            <text x="340" y="73" text-anchor="middle" font-size="12" font-weight="700" fill="#d97706">授课老师</text>
+            <text x="340" y="88" text-anchor="middle" font-size="10" fill="#64748b">课堂引导互动</text>
+            <line x1="340" y1="100" x2="340" y2="124" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="6,3"/>
+            <!-- Teacher 3: 辅导 -->
+            <circle cx="560" cy="90" r="40" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+            <text x="560" y="83" text-anchor="middle" font-size="22">📝</text>
+            <text x="560" y="103" text-anchor="middle" font-size="12" font-weight="700" fill="#059669">辅导老师</text>
+            <text x="560" y="118" text-anchor="middle" font-size="10" fill="#64748b">课后跟进辅导</text>
+            <line x1="525" y1="108" x2="372" y2="148" stroke="#10b981" stroke-width="1.5" stroke-dasharray="6,3"/>
+            <!-- Cycle below -->
+            <text x="340" y="225" text-anchor="middle" font-size="14" font-weight="700" fill="#1e293b">「学 - 练 - 测 - 评」循环</text>
+            <rect x="60" y="242" width="130" height="36" rx="18" fill="#dbeafe" stroke="#2563eb" stroke-width="1"/>
+            <text x="125" y="262" text-anchor="middle" font-size="13" font-weight="700" fill="#2563eb">📖 学</text>
+            <text x="125" y="275" text-anchor="middle" font-size="9" fill="#64748b">游戏化探究</text>
+            <text x="195" y="262" font-size="16" fill="#94a3b8">→</text>
+            <rect x="210" y="242" width="130" height="36" rx="18" fill="#fef3c7" stroke="#f59e0b" stroke-width="1"/>
+            <text x="275" y="262" text-anchor="middle" font-size="13" font-weight="700" fill="#d97706">✏️ 练</text>
+            <text x="275" y="275" text-anchor="middle" font-size="9" fill="#64748b">课后作业</text>
+            <text x="345" y="262" font-size="16" fill="#94a3b8">→</text>
+            <rect x="360" y="242" width="130" height="36" rx="18" fill="#fce7f3" stroke="#ec4899" stroke-width="1"/>
+            <text x="425" y="262" text-anchor="middle" font-size="13" font-weight="700" fill="#db2777">📊 测</text>
+            <text x="425" y="275" text-anchor="middle" font-size="9" fill="#64748b">阶段测试</text>
+            <text x="495" y="262" font-size="16" fill="#94a3b8">→</text>
+            <rect x="510" y="242" width="110" height="36" rx="18" fill="#d1fae5" stroke="#10b981" stroke-width="1"/>
+            <text x="565" y="262" text-anchor="middle" font-size="13" font-weight="700" fill="#059669">🔄 评</text>
+            <text x="565" y="275" text-anchor="middle" font-size="9" fill="#64748b">精准干预</text>
+          </svg>
+        </div>
+
+        <div class="callout-grid">
+          <div class="callout-item">
+            <div class="icon">👥</div>
+            <h4>3V1陪伴</h4>
+            <p>教研+授课+辅导，全方位关注</p>
+          </div>
+          <div class="callout-item">
+            <div class="icon">🎯</div>
+            <h4>精准干预</h4>
+            <p>计算/概念/审题，逐一击破</p>
+          </div>
+          <div class="callout-item">
+            <div class="icon">📅</div>
+            <h4>关键强化</h4>
+            <p>期中期末考前，阶段复习巩固</p>
+          </div>
+        </div>
+      `
+    },
+    {
+      id: 's4',
+      title: '总结与通关任务',
+      duration: '13-15分钟',
+      icon: '★',
+      type: 'summary',
+      content: `
+        <div class="section-header">
+          <span class="section-badge">总结考核</span>
+          <h1>总结与通关任务</h1>
+          <span class="duration">⏱ 13-15分钟</span>
+        </div>
+
+        <div class="highlight-box">
+          <strong>🏆 课程核心目标：</strong>学完本课后，学员能在<strong style="color:#2563eb;">2分钟内</strong>，结构化地向客户阐述课程「可提分」的完整逻辑，并针对「计算」和「应用题」两大痛点提供具体解决方案。
+        </div>
+
+        <div class="card">
+          <div class="card-title">📋 可提分铁三角 · 复习回顾</div>
+          <div class="callout-grid">
+            <div class="callout-item" style="border-color:#2563eb;border-width:2px;">
+              <div class="icon">🔑</div>
+              <h4 style="color:#2563eb;">底层能力</h4>
+              <p>「万能钥匙」</p>
+              <p style="font-size:12px;color:#64748b;margin-top:4px;">思维力是根本<br>解决灵活题、应用题</p>
+            </div>
+            <div class="callout-item" style="border-color:#f59e0b;border-width:2px;">
+              <div class="icon">🎯</div>
+              <h4 style="color:#d97706;">课程体系</h4>
+              <p>「精准地图」</p>
+              <p style="font-size:12px;color:#64748b;margin-top:4px;">内容对标·进度超前<br>专项突破·直指考点</p>
+            </div>
+            <div class="callout-item" style="border-color:#10b981;border-width:2px;">
+              <div class="icon">🛡️</div>
+              <h4 style="color:#059669;">过程支持</h4>
+              <p>「全程护航」</p>
+              <p style="font-size:12px;color:#64748b;margin-top:4px;">3V1服务·个性化辅导<br>阶段复习·效果落地</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="script-block">
+          下次面对客户关于「提分」的疑问，请结构化地使用这个「铁三角」模型，它将让你的介绍更有层次、更有说服力。
+        </div>
+
+        <!-- Final Task -->
+        <div class="quiz-card" style="border-color: var(--accent);">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+            <span style="font-size:32px;">🎙️</span>
+            <div>
+              <h3 style="font-size:18px;font-weight:700;">通关任务</h3>
+              <p style="color:var(--text-secondary);font-size:13px;">完成此任务即可结业</p>
+            </div>
+          </div>
+          <p style="font-size:14px;margin-bottom:16px;">
+            请录制一段<strong>90秒</strong>的语音（或用文字模拟），模拟向一位<strong>关心孩子呈分试的五年级家长</strong>，运用「铁三角」模型介绍课程如何帮助提分。
+          </p>
+          <div class="eval-dimensions">
+            <div class="eval-dim">
+              <h4>📐 结构完整性</h4>
+              <p style="font-size:12px;color:var(--text-secondary);">是否涵盖三大支柱</p>
+            </div>
+            <div class="eval-dim">
+              <h4>✅ 论据准确性</h4>
+              <p style="font-size:12px;color:var(--text-secondary);">数据是否准确引用</p>
+            </div>
+            <div class="eval-dim">
+              <h4>💬 表达流畅度</h4>
+              <p style="font-size:12px;color:var(--text-secondary);">逻辑清晰·语言自然</p>
+            </div>
+          </div>
+          <div style="margin-top:20px;">
+            <textarea class="reply-input" id="finalTaskInput" placeholder="在此输入你的90秒模拟推介话术（约250-300字）..."></textarea>
+            <div style="margin-top:12px;display:flex;gap:12px;">
+              <button class="btn btn-accent" onclick="submitFinalTask()">提交评估</button>
+              <span id="finalCharCount" style="font-size:12px;color:var(--text-secondary);align-self:center;">0 / 300字</span>
+            </div>
+            <div id="finalFeedback" style="margin-top:16px;display:none;"></div>
+          </div>
+        </div>
+
+        <!-- Task checklist -->
+        <div class="card">
+          <div class="card-title">✅ 考核与评估方案</div>
+          <ul class="task-checklist">
+            <li id="checklist1">
+              <span class="check-icon">1</span>
+              <span>随堂测验：完成互动练习1（选择题）</span>
+            </li>
+            <li id="checklist2">
+              <span class="check-icon">2</span>
+              <span>课后练习：完成互动练习2（AI模拟对话），评分 ≥ 80分</span>
+            </li>
+            <li id="checklist3">
+              <span class="check-icon">3</span>
+              <span>终极考核：完成通关任务（90秒模拟推介），三项维度评分通过</span>
+            </li>
+          </ul>
+        </div>
+      `
+    }
+  ]
+};
+
+// === Quiz Data ===
+const quizzes = {
+  quiz1: {
+    question: '当客户说"我只是想让孩子数学考高分"时，以下哪种回应最符合我们的"底层逻辑"？',
+    options: [
+      { label: 'A', text: '"我们就是专门提分的，有很多题。"' },
+      { label: 'B', text: '"我们课程和学校考试内容是一样的，肯定能提分。"' },
+      { label: 'C', text: '"您说得对，高分是目标。我们的独特之处在于，通过培养孩子的逻辑思维和解决问题能力这个「万能钥匙」，让他不仅能解眼前的题，未来更复杂的题也能自己搞定，这才是持续高分的保障。"' }
+    ],
+    correct: 2,
+    feedback_correct: '✅ <strong>回答正确！</strong>选项C准确传递了「思维力是根本」的核心价值，强调长期能力培养而非短期功利刷题。这正是VIPTHINK与传统刷题班的本质区别。',
+    feedback_wrong: '❌ <strong>还需加强。</strong>选项A和B都是短期功利思维，没有体现VIPTHINK「培养底层思维能力」的独特价值。正确思路是：高分是目标，但我们的路径是通过培养「万能钥匙」般的思维能力，让孩子能自己搞定各种题型。'
+  },
+  quiz2: {
+    question: '客户说："我听你说培养思维很重要，但我最关心的还是下次考试能不能看到进步。应用题总是丢分怎么办？"请结合「底层逻辑」和「课程体系」两部分，输入你的回应（1分钟内）：',
+    options: [],
+    isDialogue: true,
+    expectedKeywords: [
+      { word: '思维力', weight: 20 },
+      { word: '万能钥匙', weight: 15 },
+      { word: '应用题', weight: 15 },
+      { word: '重点突破', weight: 10 },
+      { word: '校内', weight: 10 },
+      { word: '考点', weight: 10 },
+      { word: '进度', weight: 10 },
+      { word: '对标', weight: 10 }
+    ],
+    scenario: '你正在与一位孩子读小四的家长沟通，他表示孩子校内数学成绩中等，应用题尤其薄弱。'
+  }
+};
+
+// === State ===
+let currentSection = 0;
+let completedSections = new Set();
+let quiz1Answered = false;
+let quiz2Answered = false;
+let quiz2Score = 0;
+let finalTaskSubmitted = false;
+let finalScore = 0;
+
+// Timer
+let studySeconds = 0;
+let timerInterval = null;
+
+// === Init ===
+function init() {
+  renderSidebar();
+  renderSections();
+  navigateTo(0);
+  setupQuizListeners();
+  setupFinalTaskListener();
+  startTimer();
+  loadNotes();
+  loadProgress();
+}
+
+function renderSidebar() {
+  const nav = document.getElementById('sidebarNav');
+  nav.innerHTML = courseData.sections.map((s, i) => `
+    <div class="nav-section" data-index="${i}" onclick="navigateTo(${i})">
+      <div class="nav-icon">${s.icon}</div>
+      <div class="nav-info">
+        <div class="nav-label">${s.title}</div>
+        <div class="nav-sub">⏱ ${s.duration}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderSections() {
+  const main = document.getElementById('mainContent');
+  main.innerHTML = courseData.sections.map((s, i) => `
+    <div class="section" data-section="${i}">
+      ${s.content}
+      ${s.type === 'content_quiz' ? renderQuiz(quizzes[s.quizId], i) : ''}
+      ${s.type === 'content_chart_dialogue' ? renderDialogue(quizzes[s.quizId], i) : ''}
+      <div class="section-nav-buttons">
+        <div>
+          ${i > 0 ? `<button class="btn btn-outline" onclick="navigateTo(${i-1})">← 上一章</button>` : ''}
+        </div>
+        <div>
+          ${i < courseData.sections.length - 1 ? `<button class="btn" onclick="markComplete(${i});navigateTo(${i+1})">下一章 →</button>` : `<button class="btn btn-success" onclick="markComplete(${i})">✓ 完成课程</button>`}
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderQuiz(quiz, sectionIndex) {
+  if (!quiz || quiz.isDialogue) return '';
+  return `
+    <div class="quiz-card" id="quiz-${quiz.quizId || sectionIndex}">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+        <span style="font-size:24px;">✍️</span>
+        <h3 style="font-size:16px;font-weight:700;">互动练习：选择题</h3>
+      </div>
+      <div class="quiz-question">${quiz.question}</div>
+      <div class="quiz-options">
+        ${quiz.options.map((opt, oi) => `
+          <div class="quiz-option" data-option="${oi}" onclick="selectQuizOption(this, ${oi}, '${quiz.quizId || sectionIndex}')">
+            <span class="quiz-option-label">${opt.label}</span>
+            <span>${opt.text}</span>
+          </div>
+        `).join('')}
+      </div>
+      <div class="quiz-feedback" id="feedback-${quiz.quizId || sectionIndex}"></div>
+    </div>
+  `;
+}
+
+function renderDialogue(quiz, sectionIndex) {
+  if (!quiz || !quiz.isDialogue) return '';
+  return `
+    <div class="dialogue-container" id="dialogue-container">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+        <span style="font-size:24px;">🤖</span>
+        <h3 style="font-size:16px;font-weight:700;">互动练习：AI模拟对话</h3>
+      </div>
+      <div class="dialogue-scenario">
+        <strong>📋 场景设定</strong>
+        ${quiz.scenario}
+      </div>
+      <div class="customer-bubble">
+        ${quiz.question}
+      </div>
+      <textarea class="reply-input" id="dialogueInput" placeholder="请结合「底层逻辑」和「课程体系」两部分内容，组织一段1分钟内的回应..."></textarea>
+      <div class="dialogue-actions">
+        <button class="btn" id="submitDialogueBtn" onclick="submitDialogue()">提交回答</button>
+        <button class="btn btn-outline" onclick="resetDialogue()">重新作答</button>
+      </div>
+      <div class="ai-feedback-panel" id="dialogueFeedback"></div>
+    </div>
+  `;
+}
+
+function navigateTo(index) {
+  currentSection = index;
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-section').forEach(n => n.classList.remove('active'));
+
+  const section = document.querySelector(`.section[data-section="${index}"]`);
+  if (section) section.classList.add('active');
+
+  const navItem = document.querySelector(`.nav-section[data-index="${index}"]`);
+  if (navItem) navItem.classList.add('active');
+
+  updateProgress();
+  updateNotesForSection(index);
+  saveProgress();
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // Close mobile sidebar
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('show');
+}
+
+function markComplete(index) {
+  completedSections.add(index);
+  updateProgress();
+  updateChecklist();
+  saveProgress();
+  showToast(`「${courseData.sections[index].title}」已完成 ✓`, 'success');
+}
+
+function updateProgress() {
+  const total = courseData.sections.length;
+  const completed = completedSections.size;
+  // Also count the current section
+  const viewed = new Set([...completedSections, currentSection]);
+  const pct = Math.round((viewed.size / total) * 100);
+
+  document.getElementById('progressPercent').textContent = pct + '%';
+  document.getElementById('progressFill').style.width = pct + '%';
+
+  // Update nav completed states
+  document.querySelectorAll('.nav-section').forEach((el, i) => {
+    if (completedSections.has(i)) {
+      el.classList.add('completed');
+    }
+  });
+}
+
+function updateChecklist() {
+  if (quiz1Answered) {
+    const el = document.getElementById('checklist1');
+    if (el) { el.classList.add('done'); el.querySelector('.check-icon').textContent = '✓'; }
+  }
+  if (quiz2Answered && quiz2Score >= 80) {
+    const el = document.getElementById('checklist2');
+    if (el) { el.classList.add('done'); el.querySelector('.check-icon').textContent = '✓'; }
+  }
+  if (finalTaskSubmitted) {
+    const el = document.getElementById('checklist3');
+    if (el) { el.classList.add('done'); el.querySelector('.check-icon').textContent = '✓'; }
+  }
+}
+
+// === Quiz 1: Multiple Choice ===
+function selectQuizOption(el, optionIndex, quizId) {
+  if (quiz1Answered) return;
+
+  const quizCard = document.getElementById(`quiz-${quizId}`);
+  const quiz = quizzes.quiz1;
+  const feedback = document.getElementById(`feedback-${quizId}`);
+
+  // Highlight selected
+  quizCard.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('selected', 'correct', 'wrong'));
+  el.classList.add('selected');
+
+  // Auto-submit
+  quiz1Answered = true;
+  quizCard.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('selected'));
+
+  if (optionIndex === quiz.correct) {
+    el.classList.add('correct');
+    quizCard.classList.add('answered-correct');
+    feedback.className = 'quiz-feedback show correct';
+    feedback.innerHTML = quiz.feedback_correct;
+  } else {
+    el.classList.add('wrong');
+    quizCard.classList.add('answered-wrong');
+    // Highlight correct answer
+    quizCard.querySelectorAll('.quiz-option')[quiz.correct].classList.add('correct');
+    feedback.className = 'quiz-feedback show wrong';
+    feedback.innerHTML = quiz.feedback_wrong;
+  }
+
+  updateChecklist();
+  saveProgress();
+  checkCertificate();
+}
+
+// === Quiz 2: AI Dialogue ===
+function submitDialogue() {
+  if (quiz2Answered) return;
+
+  const input = document.getElementById('dialogueInput');
+  const text = input.value.trim();
+  if (!text) { showToast('请先输入你的回答', 'info'); return; }
+
+  const quiz = quizzes.quiz2;
+  const feedback = document.getElementById('dialogueFeedback');
+  const lowerText = text.toLowerCase();
+
+  // Score based on keywords
+  let totalScore = 0;
+  const keywordResults = quiz.expectedKeywords.map(kw => {
+    const found = lowerText.includes(kw.word.toLowerCase()) ||
+                  lowerText.includes(kw.word);
+    if (found) totalScore += kw.weight;
+    return { ...kw, found };
+  });
+
+  // Bonus: length and structure
+  if (text.length >= 100) totalScore += 10;
+  if (text.length >= 200) totalScore += 5;
+
+  quiz2Score = Math.min(100, totalScore);
+  quiz2Answered = true;
+
+  // Score level
+  let scoreLevel = 'low';
+  if (quiz2Score >= 80) scoreLevel = 'high';
+  else if (quiz2Score >= 60) scoreLevel = 'medium';
+
+  // Feedback message
+  let feedbackMsg = '';
+  if (quiz2Score >= 80) {
+    feedbackMsg = '<p style="font-size:16px;font-weight:700;color:#065f46;margin-bottom:8px;">🎉 优秀！你的回答结构完整、论据充分。</p>';
+  } else if (quiz2Score >= 60) {
+    feedbackMsg = '<p style="font-size:16px;font-weight:700;color:#92400e;margin-bottom:8px;">👍 不错！还有提升空间。</p>';
+  } else {
+    feedbackMsg = '<p style="font-size:16px;font-weight:700;color:#991b1b;margin-bottom:8px;">📚 需要更多练习。建议回顾课程内容后再试。</p>';
+  }
+
+  feedbackMsg += '<p style="font-size:13px;color:#64748b;margin-bottom:12px;">AI评估基于以下关键点检测：</p>';
+
+  // Keyword results
+  feedbackMsg += '<div class="keywords-result">';
+  keywordResults.forEach(kr => {
+    feedbackMsg += `<span class="keyword-tag ${kr.found ? 'found' : 'missing'}">${kr.found ? '✓' : '✗'} ${kr.word} (${kr.weight}分)</span>`;
+  });
+  if (text.length >= 100) feedbackMsg += '<span class="keyword-tag found">✓ 回答长度充足 (+10分)</span>';
+  if (text.length >= 200) feedbackMsg += '<span class="keyword-tag found">✓ 回答详尽 (+5分)</span>';
+  feedbackMsg += '</div>';
+
+  // Improvement suggestions
+  const missingKeywords = keywordResults.filter(k => !k.found);
+  if (missingKeywords.length > 0) {
+    feedbackMsg += '<div style="margin-top:16px;padding:12px;background:#fef2f2;border-radius:8px;font-size:13px;color:#991b1b;">';
+    feedbackMsg += '<strong>💡 优化建议：</strong>你的回答中缺少以下关键要素：<br>';
+    feedbackMsg += missingKeywords.map(k => `· <strong>${k.word}</strong>`).join('<br>');
+    feedbackMsg += '<br>建议将这些要素融入回答中，使说服力更强。';
+    feedbackMsg += '</div>';
+  }
+
+  // Score display
+  feedback.innerHTML = `
+    <div class="score-display">
+      <div class="score-circle ${scoreLevel}">${quiz2Score}</div>
+      <div style="font-size:13px;color:var(--text-secondary);margin-top:4px;">综合评分</div>
+    </div>
+    ${feedbackMsg}
+    ${quiz2Score >= 80 ? '<div style="margin-top:12px;padding:12px;background:#ecfdf5;border-radius:8px;font-size:13px;color:#065f46;"><strong>✅ 练习通过！</strong>评分达到80分以上，你已掌握铁三角模型的核心要素。</div>' : ''}
+  `;
+  feedback.classList.add('show');
+  document.getElementById('submitDialogueBtn').disabled = true;
+  input.disabled = true;
+
+  updateChecklist();
+  saveProgress();
+  checkCertificate();
+}
+
+function resetDialogue() {
+  quiz2Answered = false;
+  quiz2Score = 0;
+  document.getElementById('dialogueInput').value = '';
+  document.getElementById('dialogueInput').disabled = false;
+  document.getElementById('submitDialogueBtn').disabled = false;
+  document.getElementById('dialogueFeedback').classList.remove('show');
+  document.getElementById('dialogueFeedback').innerHTML = '';
+  updateChecklist();
+}
+
+function setupQuizListeners() {
+  // Dialogue submit on Ctrl+Enter
+  document.addEventListener('keydown', function(e) {
+    if (e.ctrlKey && e.key === 'Enter') {
+      const dialogueInput = document.getElementById('dialogueInput');
+      if (dialogueInput && document.activeElement === dialogueInput) {
+        submitDialogue();
+      }
+    }
+  });
+}
+
+function setupFinalTaskListener() {
+  const input = document.getElementById('finalTaskInput');
+  if (input) {
+    input.addEventListener('input', function() {
+      const count = this.value.length;
+      document.getElementById('finalCharCount').textContent = count + ' / 300字';
+    });
+  }
+}
+
+function submitFinalTask() {
+  const input = document.getElementById('finalTaskInput');
+  const text = input.value.trim();
+  if (!text) { showToast('请先输入你的模拟推介话术', 'info'); return; }
+
+  finalTaskSubmitted = true;
+
+  // Simple evaluation
+  const dimensions = [
+    { name: '结构完整性', keywords: ['底层', '思维', '万能钥匙', '课程', '对标', '进度', '过程', '辅导', '3V1'], score: 0, maxScore: 0 },
+    { name: '论据准确性', keywords: ['70%', '100%', '2个月', '呈分试', '校内', '考点', '应用'], score: 0, maxScore: 0 },
+    { name: '表达流畅度', check: text.length >= 150, score: 0, maxScore: 0 }
+  ];
+
+  // Structure: check if covers all 3 pillars
+  const hasPillar1 = text.includes('底层') || text.includes('思维') || text.includes('万能钥匙');
+  const hasPillar2 = text.includes('课程') || text.includes('对标') || text.includes('进度') || text.includes('校内');
+  const hasPillar3 = text.includes('过程') || text.includes('辅导') || text.includes('3V1') || text.includes('服务');
+
+  let dim1Score = 0;
+  if (hasPillar1) dim1Score += 33;
+  if (hasPillar2) dim1Score += 33;
+  if (hasPillar3) dim1Score += 34;
+  dimensions[0].score = dim1Score;
+
+  // Accuracy
+  const accurate = [text.includes('70%'), text.includes('100%'), text.includes('2个月'), text.includes('呈分试')];
+  dimensions[1].score = Math.min(100, accurate.filter(Boolean).length * 25);
+
+  // Fluency
+  dimensions[2].score = text.length >= 150 ? Math.min(100, 60 + Math.floor(text.length / 10)) : Math.min(60, Math.floor(text.length / 3));
+
+  const totalScore = Math.round((dimensions[0].score + dimensions[1].score + dimensions[2].score) / 3);
+  finalScore = totalScore;
+
+  let starEmojis = ['⭐', '⭐⭐', '⭐⭐⭐', '🌟🌟', '🌟🌟🌟'];
+  const feedbackEl = document.getElementById('finalFeedback');
+  feedbackEl.style.display = 'block';
+
+  let verdict = '';
+  if (totalScore >= 80) verdict = '🎉 <strong>通关成功！</strong>你的推介话术结构完整、论据有力、表达流畅，已具备独立面向客户进行「可提分」介绍的能力。';
+  else if (totalScore >= 60) verdict = '👍 <strong>基本通过。</strong>建议在以下方面加强后再进行一次模拟练习。';
+  else verdict = '📚 <strong>需要重新练习。</strong>请重新回顾课程三大支柱的核心内容，组织语言后再次提交。';
+
+  feedbackEl.innerHTML = `
+    <div class="card" style="border:2px solid ${totalScore >= 80 ? 'var(--success)' : totalScore >= 60 ? 'var(--accent)' : 'var(--danger)'}">
+      <div class="score-display">
+        <div class="score-circle ${totalScore >= 80 ? 'high' : totalScore >= 60 ? 'medium' : 'low'}">${totalScore}</div>
+        <div style="font-size:13px;color:var(--text-secondary);margin-top:4px;">综合评分</div>
+      </div>
+      <div class="eval-dimensions" style="margin-top:20px;">
+        <div class="eval-dim" style="border-color:${dimensions[0].score >= 70 ? 'var(--success)' : 'var(--danger)'}">
+          <h4>📐 结构完整性</h4>
+          <div class="stars">${starEmojis[Math.floor(dimensions[0].score / 20)]}</div>
+          <p style="font-size:12px;color:var(--text-secondary);">${dimensions[0].score}分</p>
+        </div>
+        <div class="eval-dim" style="border-color:${dimensions[1].score >= 70 ? 'var(--success)' : 'var(--danger)'}">
+          <h4>✅ 论据准确性</h4>
+          <div class="stars">${starEmojis[Math.floor(dimensions[1].score / 20)]}</div>
+          <p style="font-size:12px;color:var(--text-secondary);">${dimensions[1].score}分</p>
+        </div>
+        <div class="eval-dim" style="border-color:${dimensions[2].score >= 70 ? 'var(--success)' : 'var(--danger)'}">
+          <h4>💬 表达流畅度</h4>
+          <div class="stars">${starEmojis[Math.floor(dimensions[2].score / 20)]}</div>
+          <p style="font-size:12px;color:var(--text-secondary);">${dimensions[2].score}分</p>
+        </div>
+      </div>
+      <div style="margin-top:16px;padding:16px;background:${totalScore >= 80 ? '#ecfdf5' : totalScore >= 60 ? '#fffbeb' : '#fef2f2'};border-radius:8px;font-size:14px;">
+        ${verdict}
+      </div>
+    </div>
+  `;
+
+  updateChecklist();
+  saveProgress();
+  input.disabled = true;
+  showToast('通关任务已提交！', 'success');
+
+  // Check if all tasks done → show certificate
+  checkCertificate();
+}
+
+// === Study Timer ===
+function startTimer() {
+  const saved = localStorage.getItem('vipthink_study_seconds');
+  if (saved) studySeconds = parseInt(saved);
+  updateTimerDisplay();
+  timerInterval = setInterval(() => {
+    studySeconds++;
+    updateTimerDisplay();
+    // Save every 10 seconds
+    if (studySeconds % 10 === 0) {
+      localStorage.setItem('vipthink_study_seconds', studySeconds);
+    }
+  }, 1000);
+}
+
+function updateTimerDisplay() {
+  const mins = Math.floor(studySeconds / 60);
+  const secs = studySeconds % 60;
+  const el = document.getElementById('timerDisplay');
+  if (el) el.textContent = String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
+}
+
+// === Notes ===
+function toggleNotes() {
+  const panel = document.getElementById('notesPanel');
+  panel.classList.toggle('open');
+}
+
+function loadNotes() {
+  const allNotes = JSON.parse(localStorage.getItem('vipthink_notes') || '{}');
+  updateNotesForSection(currentSection, allNotes);
+}
+
+function updateNotesForSection(index, allNotes) {
+  allNotes = allNotes || JSON.parse(localStorage.getItem('vipthink_notes') || '{}');
+  const key = 'ch_' + index;
+  const label = document.getElementById('notesChapterLabel');
+  const textarea = document.getElementById('notesTextarea');
+  if (label) label.textContent = courseData.sections[index].title;
+  if (textarea) {
+    textarea.value = allNotes[key] || '';
+    textarea.dataset.chapterKey = key;
+  }
+}
+
+function saveNotes() {
+  const textarea = document.getElementById('notesTextarea');
+  if (!textarea) return;
+  const key = textarea.dataset.chapterKey || ('ch_' + currentSection);
+  const allNotes = JSON.parse(localStorage.getItem('vipthink_notes') || '{}');
+  allNotes[key] = textarea.value;
+  localStorage.setItem('vipthink_notes', JSON.stringify(allNotes));
+}
+
+// === Progress Persistence ===
+function loadProgress() {
+  const saved = JSON.parse(localStorage.getItem('vipthink_progress') || '{}');
+  if (saved.quiz1Answered) quiz1Answered = true;
+  if (saved.quiz2Answered) quiz2Answered = true;
+  if (saved.quiz2Score) quiz2Score = saved.quiz2Score;
+  if (saved.finalTaskSubmitted) finalTaskSubmitted = true;
+  if (saved.finalScore) finalScore = saved.finalScore;
+  if (saved.completedSections) completedSections = new Set(saved.completedSections);
+  if (saved.currentSection !== undefined) currentSection = saved.currentSection;
+  // Update nav
+  setTimeout(() => {
+    navigateTo(currentSection);
+    updateChecklist();
+  }, 100);
+}
+
+function saveProgress() {
+  localStorage.setItem('vipthink_progress', JSON.stringify({
+    quiz1Answered, quiz2Answered, quiz2Score,
+    finalTaskSubmitted, finalScore,
+    completedSections: [...completedSections],
+    currentSection
+  }));
+}
+
+// === Certificate ===
+function checkCertificate() {
+  if (quiz1Answered && quiz2Answered && quiz2Score >= 80 && finalTaskSubmitted) {
+    setTimeout(() => showCertificate(), 1500);
+  }
+}
+
+function showCertificate() {
+  const overlay = document.getElementById('certOverlay');
+  document.getElementById('certDate').textContent = new Date().toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' });
+  const passScore = Math.round((quiz2Score + finalScore) / 2) || quiz2Score;
+  document.getElementById('certScore').textContent = `综合评定：通过 · 练习得分 ${quiz2Score}分 · 终极考核 ${finalScore}分`;
+  overlay.style.display = 'flex';
+}
+
+function closeCertificate() {
+  document.getElementById('certOverlay').style.display = 'none';
+}
+
+function printCertificate() {
+  const overlay = document.getElementById('certOverlay');
+  const paper = document.getElementById('certPaper');
+  const closeBtn = paper.querySelector('.certificate-close');
+  const actions = paper.querySelector('.cert-actions');
+
+  // Hide UI elements for print
+  if (closeBtn) closeBtn.style.display = 'none';
+  if (actions) actions.style.display = 'none';
+  overlay.style.background = '#fff';
+
+  window.print();
+
+  // Restore
+  if (closeBtn) closeBtn.style.display = '';
+  if (actions) actions.style.display = '';
+  overlay.style.background = '';
+}
+
+// === Helpers ===
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebarOverlay').classList.toggle('show');
+}
+
+function showToast(msg, type) {
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  toast.textContent = msg;
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 3000);
+}
+
+// === Init on load ===
+document.addEventListener('DOMContentLoaded', init);
+
+// Auto-save notes on input
+document.addEventListener('input', function(e) {
+  if (e.target.id === 'notesTextarea') {
+    clearTimeout(e.target._saveTimeout);
+    e.target._saveTimeout = setTimeout(saveNotes, 500);
+  }
+});
+
+// Save progress before leaving page
+window.addEventListener('beforeunload', () => {
+  localStorage.setItem('vipthink_study_seconds', studySeconds);
+  saveNotes();
+  saveProgress();
+});
+
+// === Mobile Video Fix ===
+// Videos re-encoded to H.264 Baseline + faststart for universal mobile compatibility.
+// Direct src approach (no blob) works because moov atom is at file start.
+(function initVideos() {
+  document.querySelectorAll('video source[type="video/mp4"]').forEach(src => {
+    const video = src.parentElement;
+    const url = src.getAttribute('src');
+    if (!url) return;
+
+    const wrapper = video.closest('.video-wrapper');
+    const label = wrapper ? wrapper.querySelector('.video-label') : null;
+
+    // Detect if direct src fails (metadata never loads)
+    let loaded = false;
+    let fallbackTimer = null;
+
+    video.addEventListener('loadedmetadata', () => {
+      loaded = true;
+      if (fallbackTimer) clearTimeout(fallbackTimer);
+      if (label) label.textContent = label.textContent.replace('（加载中...）', '');
+    });
+
+    video.addEventListener('error', () => {
+      if (!loaded) tryBlobFallback(video, url, label);
+    });
+
+    // On page load, check if video is visible and preload
+    video.setAttribute('preload', 'auto');
+
+    // If metadata doesn't load within 6s, try blob fallback
+    fallbackTimer = setTimeout(() => {
+      if (!loaded) tryBlobFallback(video, url, label);
+    }, 6000);
+
+    if (label) label.textContent = label.textContent + '（加载中...）';
+  });
+
+  function tryBlobFallback(video, url, label) {
+    fetch(url)
+      .then(r => r.blob())
+      .then(blob => {
+        const blobUrl = URL.createObjectURL(blob);
+        const src = video.querySelector('source');
+        if (src) src.remove();
+        video.src = blobUrl;
+        video.load();
+        if (label) label.textContent = label.textContent.replace('（加载中...）', '（就绪 ✓）');
+        setTimeout(() => {
+          if (label) label.textContent = label.textContent.replace('（就绪 ✓）', '');
+        }, 3000);
+      })
+      .catch(() => {
+        if (label) {
+          label.textContent = label.textContent.replace('（加载中...）', '（点击播放按钮重试）');
+          label.style.color = '#f59e0b';
+        }
+      });
+  }
+})();
+</script>
+
+</body>
+</html>
