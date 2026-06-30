@@ -193,7 +193,8 @@ video { width: 100%; border-radius: var(--radius-sm); background: #000; }
 .cert-body { font-size: 15px; color: #1e293b; line-height: 2.2; }
 .cert-name { display: inline-block; border-bottom: 2px solid #2563eb; min-width: 100px; padding: 2px 8px; margin: 0 4px; outline: none; }
 .cert-course { font-weight: 700; color: #1d4ed8; margin: 8px 0; }
-.cert-score { margin: 20px 0; font-size: 16px; font-weight: 600; color: #10b981; }
+.cert-score { margin: 20px 0 4px; font-size: 16px; font-weight: 600; color: #10b981; }
+.cert-final-score { margin: 4px 0 20px; font-size: 14px; font-weight: 600; color: #1d4ed8; }
 .cert-footer { display: flex; justify-content: space-between; font-size: 12px; color: #64748b; margin-top: 32px; border-top: 1px solid #e2e8f0; padding-top: 16px; }
 .cert-actions { display: flex; gap: 12px; justify-content: center; margin-top: 20px; }
 
@@ -329,6 +330,7 @@ video { width: 100%; border-radius: var(--radius-sm); background: #000; }
       <p class="cert-course">微课：可提分铁三角</p>
       <p>全部课程内容并通过考核</p>
       <div class="cert-score" id="certScore">综合评定：通过</div>
+      <div class="cert-final-score" id="certFinalScore">终极考核得分：—</div>
     </div>
     <div class="cert-footer">
       <span id="certDate"></span>
@@ -1337,7 +1339,8 @@ function checkCertificate() {
   if (allDone) {
     setTimeout(() => {
       document.getElementById('certDate').textContent = new Date().toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' });
-      document.getElementById('certScore').textContent = '综合评定：通过 · 对话练习 ' + quiz2Score + '分 · 通关考核 ' + finalScore + '分';
+      document.getElementById('certScore').textContent = '综合评定：通过 · 对话练习 ' + quiz2Score + '分';
+      document.getElementById('certFinalScore').textContent = '终极考核得分：' + finalScore + ' 分';
       document.getElementById('certOverlay').style.display = 'flex';
     }, 1200);
   }
@@ -1358,7 +1361,8 @@ function printCertificate() {
   win.document.write('.cert .body{font-size:15px;line-height:2;color:#1e293b;}');
   win.document.write('.cert .name{display:inline-block;border-bottom:2px solid #2563eb;min-width:120px;padding:4px 12px;margin:0 4px;}');
   win.document.write('.cert .course{font-weight:700;color:#1d4ed8;margin:8px 0;}');
-  win.document.write('.cert .score{margin:20px 0;font-size:16px;font-weight:600;color:#10b981;}');
+  win.document.write('.cert .score{margin:20px 0 4px;font-size:16px;font-weight:600;color:#10b981;}');
+  win.document.write('.cert .final-score{margin:4px 0 20px;font-size:14px;font-weight:600;color:#1d4ed8;}');
   win.document.write('.cert .footer{display:flex;justify-content:space-between;font-size:12px;color:#64748b;margin-top:32px;border-top:1px solid #e2e8f0;padding-top:16px;}');
   win.document.write('</style></head><body><div class="cert">');
   win.document.write(cert.innerHTML.replace(/<button[^>]*>.*?<\/button>/g, ''));
