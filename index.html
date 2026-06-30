@@ -1338,11 +1338,13 @@ function checkCertificate() {
     && finalTaskSubmitted && finalScore >= 60;
   if (allDone) {
     setTimeout(() => {
+      showToast('🏆 恭喜完成全部课程！点击领取结业证书', 'success');
+      document.getElementById('certStudentName').textContent = '请填写姓名';
       document.getElementById('certDate').textContent = new Date().toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' });
       document.getElementById('certScore').textContent = '综合评定：通过 · 对话练习 ' + quiz2Score + '分';
       document.getElementById('certFinalScore').textContent = '终极考核得分：' + finalScore + ' 分';
       document.getElementById('certOverlay').style.display = 'flex';
-    }, 1200);
+    }, 1000);
   }
 }
 
